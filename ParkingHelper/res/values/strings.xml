@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ParkingHelper</string>
+    <string name="action_search">Search</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_hint">Search Places</string>
+    <string name="search_settings">Search Places</string>
+	<string name="contact_us">Contact Us</string>
+    <string name="report_event">Report Event</string>
+    <string name="report_ticket">Report Ticket</string>
+    <string name="navigation">Navigation</string>
+    <string name="contact_text">Chang Shu	shuchang407@gmail.com
+								Sang Lin	aobao@gmail.com
+								Zeya Zhang
+								Zhengyang Zhong
+        </string>
+    <string name="event_text">Chang Shu	shuchang407@gmail.com
+								Sang Lin	aobao@gmail.com
+								Zeya Zhang
+								Zhengyang Zhong
+        </string>
+    <string name="ticket_text">Chang Shu	shuchang407@gmail.com
+								Sang Lin	aobao@gmail.com
+								Zeya Zhang
+								Zhengyang Zhong
+        </string>
+</resources>

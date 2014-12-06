@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ReportEvent"
+        android:layout_alignBottom="@+id/ReportEvent"
+        android:layout_marginLeft="70dp"
+        android:layout_toRightOf="@+id/ReportEvent"
+        android:text="Cancel" />
+
+    <TextView
+        android:id="@+id/event_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:text="			Is your current position holding an\n 			event parking?" />
+
+    <Button
+        android:id="@+id/ReportEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/event_content"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="43dp"
+        android:text="Yes" />
+
+</RelativeLayout>
