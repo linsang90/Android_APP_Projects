@@ -40,25 +40,25 @@ public class DownloadActivity extends Activity {
 
 	public static final String     TAG = "SL";
 	public static final String     DOWNLOAD_FOLDER_NAME = "/DownFile";
-    public static final String     DOWNLOAD_FILE_NAME   = "Download.pdf";
+	public static final String     DOWNLOAD_FILE_NAME   = "Download.pdf";
 	public static final String     APK_URL = "http://www.winlab.rutgers.edu/~janne/chi2011web.pdf";
 	
 	private Button      downloadButton ;
 	private ProgressBar downloadProgress;
-    private TextView    downloadSize;
-    private TextView    downloadPrecent;
-    private TextView    internet_status;
-    private TextView    speed;
-    private TextView    latency;
+    	private TextView    downloadSize;
+    	private TextView    downloadPrecent;
+    	private TextView    internet_status;
+    	private TextView    speed;
+    	private TextView    latency;
     
 	DownloadManager    downloadManager;
 	private long       downloadId = 0;
 	
 	private MyHandler              handler;
-    private Handler                handlerSpeed;
-    private Timer                  timer;
-    private TimerTask              task;
-    private DownloadChangeObserver downloadObserver;
+    	private Handler                handlerSpeed;
+    	private Timer                  timer;
+    	private TimerTask              task;
+    	private DownloadChangeObserver downloadObserver;
 	
 	public boolean  network;
 	public boolean  firstTime = true;
