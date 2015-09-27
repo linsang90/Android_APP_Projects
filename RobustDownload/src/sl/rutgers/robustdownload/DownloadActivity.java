@@ -113,12 +113,12 @@ public class DownloadActivity extends Activity {
 		downloadButton = (Button)findViewById(R.id.downBtn);
 		downloadProgress = (ProgressBar) findViewById(R.id.progress_bar);
 		downloadSize = (TextView)findViewById(R.id.download_size);
-        downloadPrecent = (TextView)findViewById(R.id.download_percent);
-        downloadObserver = new DownloadChangeObserver();
-        internet_status = (TextView)findViewById(R.id.internet_status);
-        speed = (TextView)findViewById(R.id.download_speed);
-        latency = (TextView)findViewById(R.id.download_latency);
-        WifiManager wifiManager = (WifiManager) getSystemService (Context.WIFI_SERVICE);
+        	downloadPrecent = (TextView)findViewById(R.id.download_percent);
+        	downloadObserver = new DownloadChangeObserver();
+        	internet_status = (TextView)findViewById(R.id.internet_status);
+        	speed = (TextView)findViewById(R.id.download_speed);
+        	latency = (TextView)findViewById(R.id.download_latency);
+        	WifiManager wifiManager = (WifiManager) getSystemService (Context.WIFI_SERVICE);
 		info = wifiManager.getConnectionInfo ();
         
 		downloadButton.setOnClickListener(new OnClickListener() {
@@ -154,51 +154,49 @@ public class DownloadActivity extends Activity {
 	}
 	
 	class DownloadChangeObserver extends ContentObserver {
-   	 
-        public DownloadChangeObserver(){
-            super(handler);
-        }
+		public DownloadChangeObserver(){
+            		super(handler);
+        	}
      
-        @Override
-        public void onChange(boolean selfChange) {
-            updateView();
-        }
-    }
-     
-    public void updateView() {
-    	int Wifi = -1;
-    	boolean isWifi = isNetworkAvailable(getApplicationContext());
-    	if(isWifi == true) Wifi = 1;
-    	else Wifi =0;
-    	if(lastWifi == -1) {
-    		lastWifi = Wifi;
+        	@Override
+        	public void onChange(boolean selfChange) {
+            	updateView();
+        	}
     	}
-    	else{
-    		if(lastWifi != Wifi) {
-    			long currentTime = System.currentTimeMillis();
+    	
+    	public void updateView() {
+    		int Wifi = -1;
+    		boolean isWifi = isNetworkAvailable(getApplicationContext());
+    		if(isWifi == true) Wifi = 1;
+    		else Wifi =0;
+    		if(lastWifi == -1) {
+    			lastWifi = Wifi;
+    		}else{
+    			if(lastWifi != Wifi) {
+    				long currentTime = System.currentTimeMillis();
     			if(Wifi == 1) {
     				//info.getBSSID ();
     				Log.i("SL", "at ["+refFormatNowDate(currentTime)+ "]wifi is on and ssid is ["+info.getBSSID ()+"]");
     			}
     			else Log.i("SL", "at ["+refFormatNowDate(currentTime)+ "]wifi is down");
     			lastWifi = Wifi;
+    			}
     		}
+        	int[] bytesAndStatus = getBytesAndStatus(downloadId);
+        	handler.sendMessage(handler.obtainMessage(Wifi, bytesAndStatus[0], bytesAndStatus[1],bytesAndStatus[2]));
     	}
-        int[] bytesAndStatus = getBytesAndStatus(downloadId);
-        handler.sendMessage(handler.obtainMessage(Wifi, bytesAndStatus[0], bytesAndStatus[1],bytesAndStatus[2]));
-    }
     
-    protected void onResume() {
-        super.onResume();
-        /** observer download change **/
-        getContentResolver().registerContentObserver(Uri.parse("content://downloads/my_downloads"), true,downloadObserver);
-    }
+    	protected void onResume() {
+        	super.onResume();
+        	/** observer download change **/
+        	getContentResolver().registerContentObserver(Uri.parse("content://downloads/my_downloads"), true,downloadObserver);
+    	}
      
-    @Override
-    protected void onPause() {
-        super.onPause();
-        getContentResolver().unregisterContentObserver(downloadObserver);
-    }
+    	@Override
+	 protected void onPause() {
+        	super.onPause();
+        	getContentResolver().unregisterContentObserver(downloadObserver);
+    	}
     
 	public int[] getBytesAndStatus(long downloadId) {
 	    int[] bytesAndStatus = new int[] { -1, -1, 0 };
@@ -206,11 +204,11 @@ public class DownloadActivity extends Activity {
 	    Cursor c = null;
 	    try {
 			c = downloadManager.query(query);
-	        if (c != null && c.moveToFirst()) {
-	            bytesAndStatus[0] = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-	            bytesAndStatus[1] = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-	            bytesAndStatus[2] = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-	        }
+	        	if (c != null && c.moveToFirst()) {
+	            		bytesAndStatus[0] = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+	            		bytesAndStatus[1] = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+	            		bytesAndStatus[2] = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+			 }
 	    } finally {
 	        if (c != null) {
 	            c.close();
@@ -221,77 +219,77 @@ public class DownloadActivity extends Activity {
 	
 	private class MyHandler extends Handler {
 
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            int Wifi = msg.what;
-            if(Wifi == 1) {
-            	if(!beginDownload && !finishDownload){
-            		long WifiTime = System.currentTimeMillis();
-            		Log.i("SL", "at ["+refFormatNowDate(WifiTime)+ "]wifi is available and ssid is ["+info.getBSSID ()+"]");
+        	@Override
+        	public void handleMessage(Message msg) {
+            	super.handleMessage(msg);
+            	int Wifi = msg.what;
+            	if(Wifi == 1) {
+            		if(!beginDownload && !finishDownload){
+            			long WifiTime = System.currentTimeMillis();
+            			Log.i("SL", "at ["+refFormatNowDate(WifiTime)+ "]wifi is available and ssid is ["+info.getBSSID ()+"]");
+            		}
+            		internet_status.setText("Wifi is on and ssid is ["+info.getBSSID ()+"]");
             	}
-            	internet_status.setText("Wifi is on and ssid is ["+info.getBSSID ()+"]");
-            }
-            else {
-            	internet_status.setText("Wifi is down");
-            }
+            	else {
+            		internet_status.setText("Wifi is down");
+            	}
             
-            switch (1) {
-                case 1:
-                    int status = (Integer)msg.obj;
-                    if (isDownloading(status)) {
-                        downloadProgress.setVisibility(View.VISIBLE);
-                        downloadProgress.setMax(0);
-                        downloadProgress.setProgress(0);
-                        downloadButton.setVisibility(View.GONE);
-                        downloadSize.setVisibility(View.VISIBLE);
-                        downloadPrecent.setVisibility(View.VISIBLE);
-                        if (msg.arg2 < 0) {
-                            downloadProgress.setIndeterminate(true);
-                            downloadPrecent.setText("0%");
-                            downloadSize.setText("0M/0M");
-                        } else {
-                        	if(!beginDownload) {
-                        		downloadTime = System.currentTimeMillis();
-                        		Log.i("SL", "at ["+refFormatNowDate(downloadTime)+ "]wifi is available and download starts");
-                        		latency.setText("Latency: "+new StringBuilder(16).append((downloadTime-beginTime))
+            	switch (1) {
+            		case 1:
+            			int status = (Integer)msg.obj;
+                    		if (isDownloading(status)) {
+                	        downloadProgress.setVisibility(View.VISIBLE);
+        		        downloadProgress.setMax(0);
+        		        downloadProgress.setProgress(0);
+                        	downloadButton.setVisibility(View.GONE);
+                        	downloadSize.setVisibility(View.VISIBLE);
+                        	downloadPrecent.setVisibility(View.VISIBLE);
+                        	if (msg.arg2 < 0) {
+                            	downloadProgress.setIndeterminate(true);
+                            	downloadPrecent.setText("0%");
+                            	downloadSize.setText("0M/0M");
+                        	} else {
+                        		if(!beginDownload) {
+                        			downloadTime = System.currentTimeMillis();
+                        			Log.i("SL", "at ["+refFormatNowDate(downloadTime)+ "]wifi is available and download starts");
+                        			latency.setText("Latency: "+new StringBuilder(16).append((downloadTime-beginTime))
                         				.toString()+"ms");
-                        		beginDownload = true;
+                        			beginDownload = true;
+                        		}
+                            	downloadProgress.setIndeterminate(false);
+                            	downloadProgress.setMax(msg.arg2);
+                            	downloadProgress.setProgress(msg.arg1);
+                            	downloadPrecent.setText(getNotiPercent(msg.arg1, msg.arg2));
+                            	downloadSize.setText(getAppSize(msg.arg1) + "/" + getAppSize(msg.arg2));
                         	}
-                            downloadProgress.setIndeterminate(false);
-                            downloadProgress.setMax(msg.arg2);
-                            downloadProgress.setProgress(msg.arg1);
-                            downloadPrecent.setText(getNotiPercent(msg.arg1, msg.arg2));
-                            downloadSize.setText(getAppSize(msg.arg1) + "/" + getAppSize(msg.arg2));
-                        }
-                    } else {
-                    	if(!finishDownload) {
-                    		long downloadComplete = System.currentTimeMillis();
-                    		Log.i("SL", "at ["+refFormatNowDate(downloadComplete)+ "] completes downloading");
-                    		Log.i("SL", "the time used to download is ["+new StringBuilder(16).append((downloadComplete - downloadTime)).toString()+ "]ms");
-                    		Toast.makeText(getApplicationContext(), "Successfully downloaded~", 1).show();
-                    		finishDownload = true;
+                    	} else {
+                    		if(!finishDownload) {
+                    			long downloadComplete = System.currentTimeMillis();
+                    			Log.i("SL", "at ["+refFormatNowDate(downloadComplete)+ "] completes downloading");
+                    			Log.i("SL", "the time used to download is ["+new StringBuilder(16).append((downloadComplete - downloadTime)).toString()+ "]ms");
+                    			Toast.makeText(getApplicationContext(), "Successfully downloaded~", 1).show();
+                    			finishDownload = true;
+                    		}
+                        	downloadProgress.setVisibility(View.VISIBLE);
+                        	downloadProgress.setMax(100);
+                        	downloadProgress.setProgress(100);
+                        	downloadButton.setVisibility(View.VISIBLE);
+                        	downloadSize.setVisibility(View.VISIBLE);
+                        	downloadPrecent.setVisibility(View.VISIBLE);
                     	}
-                        downloadProgress.setVisibility(View.VISIBLE);
-                        downloadProgress.setMax(100);
-                        downloadProgress.setProgress(100);
-                        downloadButton.setVisibility(View.VISIBLE);
-                        downloadSize.setVisibility(View.VISIBLE);
-                        downloadPrecent.setVisibility(View.VISIBLE);
-                    }
-                    break;
-            }
+                    	break;
+            	}
         }
     }
-	
-	static final DecimalFormat DOUBLE_DECIMAL_FORMAT = new DecimalFormat("0.##");
+    
+    static final DecimalFormat DOUBLE_DECIMAL_FORMAT = new DecimalFormat("0.##");
 
     public static final int MB_2_BYTE = 1024 * 1024;
     public static final int KB_2_BYTE = 1024;
 	
     //Change byte into M.
-	public static CharSequence getAppSize(long size) {
-        if (size <= 0) {
+    public static CharSequence getAppSize(long size) {
+    	if (size <= 0) {
             return "0M";
         }
 
